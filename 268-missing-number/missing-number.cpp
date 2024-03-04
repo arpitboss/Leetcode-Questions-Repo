@@ -1,13 +1,15 @@
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
-        int XOR=0;
-        for (int i=0;i<=nums.size();i++) {
-            XOR^=i;
+        int n = nums.size();
+        vector<int> hashmap(n + 1, 0);
+        for(int i=0;i<n;i++){
+            hashmap[nums[i]] = 1;
         }
-        for (int i=0;i<nums.size();i++) {
-            XOR^=nums[i];
+        for(int i=0;i<=n;i++){
+            if(hashmap[i]==0)
+            return i;
         }
-        return XOR;
+        return -1;
     }
 };
