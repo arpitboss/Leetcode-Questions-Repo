@@ -1,34 +1,22 @@
 class Solution {
 public:
+    const int CHAR = 256;
     bool isAnagram(string s, string t) {
-       map<char,int> mp;
-       map<char,int> mp1;
-
-       for (int i=0;i<s.size();i++) {
-            mp[s[i]]++;
-       }
-
-       for (int i=0;i<t.size();i++) {
-            mp1[t[i]]++;
-       }
-
-       if (mp.size()==mp1.size()) {
-            bool flag=true;
-            for (int i=0;i<mp.size();i++) {
-                if (mp[i]!=mp1[i]) {
-                    flag=false;
-                    break;
-                }
-            }
-            if (flag) {
-                return true;
-            }
-            else {
-                return false;
-            }
-       }
-       else {
+        if(s.size()!=t.size()) 
             return false;
-       }
+
+        vector<int>v(CHAR, 0);
+        for(int i=0;i<s.size();i++)
+        {
+            v[s[i]]++;
+            v[t[i]]--;
+        }
+
+        for(int i=0;i<CHAR;i++)
+        {
+            if(v[i]!=0)
+                return false;
+        }
+        return true;
     }
 };
