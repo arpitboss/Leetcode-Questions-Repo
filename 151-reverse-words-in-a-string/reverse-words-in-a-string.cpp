@@ -1,8 +1,26 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        s.erase(s.find_last_not_of(" ") + 1);
-        s.erase(0, s.find_first_not_of(" "));
+        int temp=0;
+        for (int i=0;i<s.size();i++) {
+            if (s[i]==32) {
+                temp++;
+            }
+            else {
+                s.erase(0,temp);
+                break;
+            }
+        }
+        temp=0;
+        for (int i=s.size()-1;i>=0;i--) {
+            if (s[i]==32) {
+                temp++;
+            }
+            else {
+                s.erase(i+1,temp);
+                break;
+            }
+        }
         reverse(s.begin(),s.end());
         int c=0;
         bool flag=true;
