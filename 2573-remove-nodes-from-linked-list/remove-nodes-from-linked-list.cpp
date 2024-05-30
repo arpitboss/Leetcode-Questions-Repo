@@ -55,37 +55,50 @@ public:
     // }
 
 
-    ListNode* reverseList(ListNode* head) {
-        ListNode* prev = nullptr;
-        ListNode* current = head;
+    // ListNode* reverseList(ListNode* head) {
+    //     ListNode* prev = nullptr;
+    //     ListNode* current = head;
 
-        while (current != nullptr) {
-            ListNode* nextNode = current->next;
-            current->next = prev;
-            prev = current;
-            current = nextNode;
-        }
+    //     while (current != nullptr) {
+    //         ListNode* nextNode = current->next;
+    //         current->next = prev;
+    //         prev = current;
+    //         current = nextNode;
+    //     }
 
-        return prev;
-    }
+    //     return prev;
+    // }
 
+    // ListNode* removeNodes(ListNode* head) {
+    //     ListNode* reversedHead = reverseList(head);
+
+    //     ListNode* current = reversedHead;
+    //     int maxValue = INT_MIN;
+    //     ListNode* prev = nullptr;
+
+    //     while (current != nullptr) {
+    //         if (current->val < maxValue) {
+    //             prev->next = current->next;
+    //         } else {
+    //             maxValue = current->val;
+    //             prev = current;
+    //         }
+    //         current = current->next;
+    //     }
+
+    //     return reverseList(reversedHead);
+    // }
+
+        // Recursive
     ListNode* removeNodes(ListNode* head) {
-        ListNode* reversedHead = reverseList(head);
-
-        ListNode* current = reversedHead;
-        int maxValue = INT_MIN;
-        ListNode* prev = nullptr;
-
-        while (current != nullptr) {
-            if (current->val < maxValue) {
-                prev->next = current->next;
-            } else {
-                maxValue = current->val;
-                prev = current;
-            }
-            current = current->next;
+        if(head == NULL || head->next == NULL) {
+            return head;
         }
-
-        return reverseList(reversedHead);
+        ListNode* nextN = removeNodes(head->next);
+        if(nextN->val > head->val) {
+            return nextN;
+        }
+        head->next = nextN;
+        return head;
     }
 };
