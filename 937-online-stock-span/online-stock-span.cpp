@@ -1,7 +1,11 @@
 class StockSpanner {
 public:
     stack<pair<int, int>> st;
-    StockSpanner() {} 
+    StockSpanner() {
+        ios_base::sync_with_stdio(false);
+        cin.tie(nullptr);
+        cout.tie(nullptr);
+    } 
     
     int next(int price) {
        int res=1;
