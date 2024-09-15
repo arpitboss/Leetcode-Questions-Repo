@@ -1,14 +1,22 @@
 class Solution {
 public:
     vector<int> getRow(int rowIndex) {
-        vector<vector<int>> result;
+        vector<vector<int>> dp(rowIndex + 1, vector<int>(rowIndex + 1, 0));
         for (int i = 0; i <= rowIndex; i++) {
-            vector<int> row(i + 1, 1);
-            for (int j = 1; j < i; j++) {
-                row[j] = result[i - 1][j - 1] + result[i - 1][j];
-            }
-            result.push_back(row);
+            dp[i][0] = 1;
+            dp[i][i] = 1;
         }
-        return result[rowIndex]; 
+        for (int i = 1; i <= rowIndex; i++){
+            for (int j = 1; j < i; j++){
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+            }
+        }
+
+        vector<int> result(rowIndex + 1);
+        for (int j = 0; j <= rowIndex; j++) {
+            result[j] = dp[rowIndex][j];
+        }
+
+        return result;
     }
 };
