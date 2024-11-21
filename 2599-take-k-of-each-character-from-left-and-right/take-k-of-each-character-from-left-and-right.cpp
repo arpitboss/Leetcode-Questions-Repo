@@ -11,7 +11,7 @@ public:
             return -1;
         }
 
-        int res = 0;
+        int res = n;
         int left = 0;
         int right = 0;
 
@@ -21,9 +21,9 @@ public:
                 mp[s[left]]++;
                 left++;
             }
-            res=max(res,right-left+1);
+            res=min(res,n-(right-left+1));
             right++;
         }
-        return n-res;
+        return res;
     }
 };
