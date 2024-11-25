@@ -1,33 +1,49 @@
 class Solution {
 public:
-    vector<vector<string> > sols;
-    vector<vector<string>> solveNQueens(int n) {
-        vector<string> board(n, string(n, '.'));
-	    solve(board, 0);
-	    return sols; 
-    }
-
-    bool isSafe(vector<string>& board, int row, int col) {
-	    int n = size(board);
-	    for(int i = 0; i < n; i++) {
-		    if(board[i][col] == 'Q') return false; 
-		    if(row - i >= 0 && col - i >= 0 && board[row - i][col - i] == 'Q') return false;
-		    if(row - i >= 0 && col + i <  n && board[row - i][col + i] == 'Q') return false;
-	    }
-	    return true;
-    }
-    
-    void solve(vector<string>& board, int row) {
-	    if(row == size(board)) { 
-		    sols.push_back(board);
-		    return;
-    	}            
-	    for(int col = 0; col < size(board); col++){
-		    if(isSafe(board, row, col)) {
-			    board[row][col] = 'Q';
-			    solve(board, row + 1);
-			    board[row][col] = '.';
-		    }
+    bool check(int i, int j, int n, vector<string> &board) {
+        for (int k=0;k<n;k++) {
+            if (board[k][j]=='Q') {
+                return false;
+            }
         }
+        
+        int r=i-1,c=j-1;
+        while (r>=0 && c>=0) {
+            if (board[r][c]=='Q') {
+                return false;
+            }
+            r--;
+            c--;
+        }
+        
+        r=i-1,c=j+1;
+        while (r>=0 && c<n) {
+            if (board[r][c]=='Q') {
+                return false;
+            }
+            r--;
+            c++;
+        }
+        return true;
+    }
+    void solve(int i, vector<vector<string>> &ans, vector<string> &v, int n) {
+        if (i==n) {
+            ans.push_back(v);
+            return;
+        }
+
+        for (int k=0;k<n;k++) {
+            if (check(i,k,n,v)) {
+                v[i][k]='Q';
+                solve(i+1,ans,v,n);
+                v[i][k]='.';
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> v(n,string(n,'.'));
+        solve(0,ans,v,n);
+        return ans;
     }
 };
