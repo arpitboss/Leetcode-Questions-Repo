@@ -1,21 +1,14 @@
 class Solution {
 public:
-    bool bfs(vector<vector<int>> &graph, int s, int d, int n) {
-        vector<int> vis(n,0);
-        queue<int> q;
-        q.push(s);
+    bool dfs(vector<vector<int>> &graph, int s, int d, vector<int> &vis) {
         vis[s]=1;
-
-        while (!q.empty()) {
-            int f=q.front();
-            q.pop();
-            for (auto x:graph[f]) {
-                if (x==d) {
+        for (auto x:graph[s]) {
+            if (x==d) {
+                return true;
+            }
+            if (!vis[x]) {
+                if (dfs(graph,x,d,vis)) {
                     return true;
-                }
-                if (!vis[x]) {
-                    vis[x]=1;
-                    q.push(x);
                 }
             }
         }
@@ -32,12 +25,7 @@ public:
            graph[a].push_back(b);
            graph[b].push_back(a);
         }
-
-        if (bfs(graph,source,destination,n)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        vector<int> vis(n,0);
+        return dfs(graph,source,destination,vis);
     }
 };
