@@ -21,7 +21,12 @@ public:
         vector<int> currentPath(graph.size(),0);
         vector<int> vis(graph.size());
         for (int i=0;i<graph.size();i++) {
-            if (!makeCycle(i,graph,currentPath,vis)) {
+            if (!vis[i]) {
+                makeCycle(i,graph,currentPath,vis);
+            }
+        }
+        for (int i=0;i<currentPath.size();i++) {
+            if (currentPath[i]==0) {
                 v.push_back(i);
             }
         }
