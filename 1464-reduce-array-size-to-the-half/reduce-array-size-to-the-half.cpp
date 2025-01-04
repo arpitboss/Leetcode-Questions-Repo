@@ -1,22 +1,31 @@
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 class Solution {
 public:
-    static bool comp(pair<int,int> &a, pair<int,int> &b) {
-        return a.second>b.second;
-    }
     int minSetSize(vector<int>& arr) {
-        unordered_map<int, int> freqMap;
-        for (int num : arr) {
-            freqMap[num]++;
+        vector<int> freq(100001, 0);
+        for (int num:arr) {
+            freq[num]++;
         }
-        vector<pair<int,int>> freq(freqMap.begin(), freqMap.end());
-        sort(freq.begin(),freq.end(),comp);
+        vector<int> freqCount(arr.size()+1,0);
+        for (int count:freq) {
+            if (count>0) {
+                freqCount[count]++;
+            }
+        }
+
         int res=0;
+        int removed=0;
         int val=arr.size()/2;
-        int n=arr.size();
-        for (int i=0;i<freq.size();i++) {
-            n-=freq[i].second;
-            res++;
-            if (n<=val) {
+        for (int i=freqCount.size()-1;i>0;i--) {
+            while (freqCount[i]>0 && removed<val) {
+                removed+=i;
+                freqCount[i]--;   
+                res++;      
+            }
+            if (removed>=val) {
                 break;
             }
         }
