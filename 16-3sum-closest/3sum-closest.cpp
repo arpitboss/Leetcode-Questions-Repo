@@ -2,17 +2,19 @@ class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
         sort(nums.begin(),nums.end());
-        unordered_map<int,int> mp;
+        int cloSum=nums[0]+nums[1]+nums[2];
         for (int i=0;i<nums.size();i++) {
             int l=i+1;
             int r=nums.size()-1;
             while (l<r) {
-                int sum=nums[i]+nums[l]+nums[r];
-                mp[sum]=abs(target-sum);
-                if (sum==target) {
-                    return sum;
+                int curr=nums[i]+nums[l]+nums[r];
+                if (abs(target-curr)<abs(target-cloSum)) {
+                    cloSum=curr;
                 }
-                else if(sum<target) {
+                if (curr==target) {
+                    return curr;
+                }
+                else if(curr<target) {
                     l++;
                 }
                 else {
@@ -20,13 +22,6 @@ public:
                 }
             }
         }
-        int res=0, mini=INT_MAX;
-        for (auto x:mp) {
-            if (x.second<mini) {
-                mini=x.second;
-                res=x.first;
-            }
-        }
-        return res;
+        return cloSum;
     }
 };
