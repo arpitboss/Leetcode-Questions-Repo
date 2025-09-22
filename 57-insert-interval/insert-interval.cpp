@@ -1,26 +1,24 @@
 class Solution {
 public:
+    static bool comp(const vector<int> &a, const vector<int> &b) {
+        return a[0]<b[0];
+    }
+
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        vector<vector<int>> v;
-        for (int i=0;i<intervals.size();i++) {
-            // New Interval is after the range of interval
-            if (intervals[i][1]<newInterval[0]) {
-                v.push_back(intervals[i]);
+        vector<vector<int>> res;
+        intervals.push_back(newInterval);
+        sort(intervals.begin(),intervals.end(),comp);
+        vector<int> pr=intervals[0];
+        for (int i=1;i<intervals.size();i++) {
+            if (pr[1]>=intervals[i][0]) {
+                pr[1]=max(pr[1],intervals[i][1]);
             }
-
-            // New Interval is before the range of interval
-            else if (intervals[i][0]>newInterval[1]) {
-                v.push_back(newInterval);
-                newInterval=intervals[i];
-            }
-
-            // New Interval is in the range of interval
-            else if (intervals[i][1]>=newInterval[0] || intervals[i][0]<=newInterval[1]) {
-                newInterval[0]=min(intervals[i][0],newInterval[0]);
-                newInterval[1]=max(intervals[i][1],newInterval[1]);
+            else {
+                res.push_back(pr);
+                pr=intervals[i];
             }
         }
-        v.push_back(newInterval);
-        return v;
+        res.push_back(pr);
+        return res;
     }
 };
