@@ -1,27 +1,25 @@
 class Solution {
 public:
-    static bool comp(const string& a, const string& b) {
-        return a + b > b + a;
+    static bool comp(const string &a, const string &b) {
+        return a+b>b+a;
     }
 
     string largestNumber(vector<int>& nums) {
-        vector<string> vec;
-        for (auto i : nums) {
-            vec.push_back(to_string(i));
+        string res;
+        vector<string> tmp;
+        for (auto n:nums) { 
+            string s=to_string(n);
+            tmp.push_back(s);
+        }
+        sort(tmp.begin(),tmp.end(),comp);
+
+        for (auto x:tmp) {
+            res+=x;
         }
 
-         sort(vec.begin(), vec.end(), comp);
-
-        if (vec[0] == "0") {
+        if (res[0]=='0' && res.length()>1) {
             return "0";
         }
-
- 
-        string ans = "";
-        for (auto& str : vec) {
-            ans += str;
-        }
-
-        return ans;
+        return res;
     }
 };
