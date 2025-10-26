@@ -1,32 +1,29 @@
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        vector<int> v;
         int n=s.size();
         int m=p.size();
-        if (n<m) {
-            return v;
-        }
-        int countT[256];
-        int countP[256];
-        for (int i=0;i<m;i++) {
-            countT[s[i]]++;
-            countP[p[i]]++;
+
+        vector<int> tmp(26,0);
+        for (char ch:p) {
+            tmp[ch-'a']++;
         }
 
-        for (int i=m;i<=n;i++) {
-            bool flag=true;
-            for (int j=0;j<256;j++) {
-                if (countT[j]!=countP[j]) {
-                    flag=false;
+        vector<int> res;
+        int i=0, j=0;
+        while (i<n) {
+            tmp[s[i]-'a']--;
+
+            if (i-j+1==m) {
+                if (tmp==vector<int>(26,0)) {
+                    res.push_back(j);
                 }
+                tmp[s[j]-'a']++;
+                j++;
             }
-            if (flag) {
-                v.push_back(i-m);
-            }
-            countT[s[i]]++;
-            countT[s[i-m]]--;
+            i++;
         }
-        return v;
+
+        return res;
     }
 };
